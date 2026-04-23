@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 
+#
 # Image optimization cache
 public/assets/**/optimised
 
