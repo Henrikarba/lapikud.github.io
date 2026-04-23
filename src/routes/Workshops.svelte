@@ -3,13 +3,14 @@
   import { onMount, onDestroy } from "svelte";
   import yaml from "js-yaml";
   import { currentLang, getLangText, createPageTextStore } from "$lib";
+  import { withBase } from "$lib/baseUrl.js";
   import { getRootAssetPath } from "$lib/imageHelpers.js";
 
   let workshops = [];
   const text = createPageTextStore("Workshops");
 
   onMount(async () => {
-    const response = await fetch("/_data/workshops.yml");
+    const response = await fetch(withBase('_data/workshops.yml'));
     const yamlText = await response.text();
     const parsed = yaml.load(yamlText) || [];
     workshops = parsed.filter((w) => w?.title);

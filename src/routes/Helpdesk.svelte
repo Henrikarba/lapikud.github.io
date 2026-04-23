@@ -5,6 +5,7 @@
   } from "$components";
   import { onMount, onDestroy } from "svelte";
   import { createPageTextStore } from "$lib";
+  import { withBase } from "$lib/baseUrl.js";
   import { getHeroImageFallback, getHeroImageSrcSet, getRootAssetPath } from "$lib/imageHelpers.js";
   import yaml from 'js-yaml';
   
@@ -44,7 +45,7 @@
   const text = createPageTextStore("Helpdesk");
   
   onMount(async () => {
-    const response = await fetch('/_data/hinnakiri.yml');
+    const response = await fetch(withBase('_data/hinnakiri.yml'));
     const yamlText = await response.text();
     pricingData = yaml.load(yamlText);
   });

@@ -8,7 +8,7 @@ export default defineConfig({
     tailwindcss(),
     svelte()
   ],
-  base: '/',
+  base: '/lapikud.github.io/',
   server: {
     historyApiFallback: true,
   },

@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { getLanguageFromRoute } from '../routes';
+import { stripBase } from './baseUrl.js';
 
 const localeModules = import.meta.glob('./locales/*/*.json');
 
@@ -7,7 +8,7 @@ const localeModules = import.meta.glob('./locales/*/*.json');
 function getInitialLanguage() {
     if (typeof window === 'undefined') return 'est';
     
-    const path = window.location.pathname;
+    const path = stripBase(window.location.pathname);
     const langFromRoute = getLanguageFromRoute(path);
     
     // If we detected a language from route, use it and save it
@@ -94,7 +95,7 @@ export function switchLang(lang) {
 // Update language when route changes
 if (typeof window !== 'undefined') {
     window.addEventListener('popstate', () => {
-        const path = window.location.pathname;
+        const path = stripBase(window.location.pathname);
         const lang = getLanguageFromRoute(path);
         if (lang) {
             switchLang(lang);

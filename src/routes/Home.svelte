@@ -3,6 +3,7 @@
   import { navigate } from "$lib/router/router.js";
   import { createPageTextStore, currentLang } from "$lib";
   import { getHeroImagePath, getHeroImageSrcSet, getHeroImageFallback, getOptimisedImagePath, getOptimisedImageFallback } from "$lib/imageHelpers.js";
+  import { withBase } from "$lib/baseUrl.js";
   import { onMount, onDestroy } from "svelte";
   import yaml from 'js-yaml';
 
@@ -14,7 +15,7 @@
   const text = createPageTextStore("Home");
 
   onMount(async () => {
-    const response = await fetch('/_data/partners.yml');
+    const response = await fetch(withBase('_data/partners.yml'));
     const yamlText = await response.text();
     partners = yaml.load(yamlText);
   });
@@ -31,9 +32,9 @@
 
   function getPartnerLogoPath(name) {
     if (!name) return "";
-    if (name.includes(".")) return `/assets/partners/${name}`;
+    if (name.includes(".")) return withBase(`assets/partners/${name}`);
     const ext = partnerLogoExtByName[name] || "png";
-    return `/assets/partners/${name}.${ext}`;
+    return withBase(`assets/partners/${name}.${ext}`);
   }
 </script>
 

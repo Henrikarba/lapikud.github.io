@@ -6,6 +6,7 @@
     Stack,
   } from "$components";
   import { navigate, getPath, currentLang, text, switchLanguageRoute } from "$lib";
+  import { withBase } from "$lib/baseUrl.js";
   import { onDestroy } from "svelte";
 
   // Icon imports (Lucide)
@@ -179,7 +180,7 @@
             onClick={() => handleNavigation("/")}
             class="nav-logo-button border-transparent px-0 py-1 md:py-3"
           >
-            <img src="/assets/logo.svg" alt="Lapikud logo" class="h-14 w-auto" />
+            <img src={withBase("assets/logo.svg")} alt="Lapikud logo" class="h-14 w-auto" />
           </Button>
 
           <div class="ml-auto flex w-full items-center justify-end md:w-auto">
@@ -321,7 +322,7 @@
           onClick={() => handleNavigation("/")}
           class="mb-3 border-transparent bg-transparent px-0 py-0 text-left"
         >
-          <img src="/assets/logo.svg" alt="Lapikud Logo" class="h-12 w-auto" />
+          <img src={withBase("assets/logo.svg")} alt="Lapikud Logo" class="h-12 w-auto" />
         </Button>
 
         <!-- About Section -->

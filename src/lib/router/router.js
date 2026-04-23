@@ -1,5 +1,6 @@
 import { getTranslatedRoute, getLanguageFromRoute } from '../../routes';
 import { switchLang } from '../i18n.js';
+import { withBase, stripBase } from '../baseUrl.js';
 
 /**
  * Navigate to a path (internal or external)
@@ -15,12 +16,13 @@ export function navigate(path, options = {}) {
     } else {
         const selectedLang =
             localStorage.getItem('language') ||
-            getLanguageFromRoute(window.location.pathname) ||
+            getLanguageFromRoute(stripBase(window.location.pathname)) ||
             'est';
 
-        const resolvedPath = getTranslatedRoute(path, selectedLang);
+        const resolvedPath = getTranslatedRoute(stripBase(path), selectedLang);
+        const nextPath = withBase(resolvedPath);
 
-        window.history.pushState({}, "", resolvedPath);
+        window.history.pushState({}, "", nextPath);
         window.scrollTo(0, 0);
         window.dispatchEvent(new PopStateEvent('popstate'));
         
@@ -37,7 +39,7 @@ export function navigate(path, options = {}) {
  * @param {string} targetLang - Target language ('est' or 'en')
  */
 export function switchLanguageRoute(targetLang) {
-    const currentPath = window.location.pathname;
+    const currentPath = stripBase(window.location.pathname);
     const translatedPath = getTranslatedRoute(currentPath, targetLang);
     
     // Always update the language first
@@ -68,7 +70,7 @@ export function reload() {
  * @returns {string} Current path
  */
 export function getPath() {
-    return window.location.pathname;
+    return stripBase(window.location.pathname);
 }
 
 /**

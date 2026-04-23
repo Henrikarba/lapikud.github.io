@@ -3,6 +3,7 @@
     import { onMount, onDestroy } from "svelte";
     import yaml from "js-yaml";
     import { currentLang, getLangText, createPageTextStore } from "$lib";
+    import { withBase } from "$lib/baseUrl.js";
     import { getOptimisedImagePath, getOptimisedImageFallback } from "$lib/imageHelpers.js";
 
     import Mail from "lucide-svelte/icons/mail";
@@ -15,7 +16,7 @@
     
 
     onMount(async () => {
-        const response = await fetch("/_data/mentors.yml");
+        const response = await fetch(withBase('_data/mentors.yml'));
         const yamlText = await response.text();
         mentors = yaml.load(yamlText);
     });

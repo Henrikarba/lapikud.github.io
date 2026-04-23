@@ -7,6 +7,7 @@
   import { onMount, onDestroy } from "svelte";
   import yaml from 'js-yaml';
   import { createPageTextStore } from "$lib";
+  import { withBase } from "$lib/baseUrl.js";
 
   let members = { junior: [], senior: [] };
   const text = createPageTextStore("Student");
@@ -14,7 +15,7 @@
   
   onMount(async () => {
     try {
-      const response = await fetch('/_data/members.yml');
+      const response = await fetch(withBase('_data/members.yml'));
       const yamlText = await response.text();
       members = yaml.load(yamlText) || { junior: [], senior: [] };
     } catch {

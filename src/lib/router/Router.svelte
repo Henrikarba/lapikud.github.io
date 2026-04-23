@@ -2,15 +2,17 @@
 <!-- unless the router is broken 👉👈 -->
 
 <script>
+  import { withBase, stripBase } from '../baseUrl.js';
+
   export function routeTo(path) {
-    window.history.pushState({}, "", path);
+    window.history.pushState({}, "", withBase(stripBase(path)));
     window.scrollTo(0, 0);
     window.dispatchEvent(new PopStateEvent("popstate"));
   }
 
   let { routes } = $props();
 
-  let currentPath = $state(window.location.pathname);
+  let currentPath = $state(stripBase(window.location.pathname));
   let CurrentComponent = $state(null);
 
   async function resolveCurrentComponent(path) {
@@ -30,15 +32,15 @@
   }
 
   function navigate(path) {
-    window.history.pushState({}, "", path);
+    window.history.pushState({}, "", withBase(stripBase(path)));
     window.scrollTo(0, 0);
-    currentPath = path;
+    currentPath = stripBase(path);
   }
 
   // Handle back/forward buttons
   $effect(() => {
     const handlePopState = () => {
-      currentPath = window.location.pathname;
+      currentPath = stripBase(window.location.pathname);
     };
 
     window.addEventListener("popstate", handlePopState);

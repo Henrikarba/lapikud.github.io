@@ -8,6 +8,7 @@
   import { onMount, onDestroy } from "svelte";
   import yaml from "js-yaml";
   import { currentLang, getLangText, createPageTextStore } from "$lib";
+  import { withBase } from "$lib/baseUrl.js";
   import { getOptimisedImagePath, getOptimisedImageFallback } from "$lib/imageHelpers.js";
   import Mail from "lucide-svelte/icons/mail";
   import Phone from "lucide-svelte/icons/phone";
@@ -45,11 +46,11 @@
 
   onMount(async () => {
     try {
-      const currentRes = await fetch('/_data/management.yml');
+      const currentRes = await fetch(withBase('_data/management.yml'));
       const currentYaml = await currentRes.text();
       currentManagement = yaml.load(currentYaml) || [];
 
-      const pastRes = await fetch('/_data/past_management.yml');
+      const pastRes = await fetch(withBase('_data/past_management.yml'));
       const pastYaml = await pastRes.text();
       pastManagement = yaml.load(pastYaml) || [];
     } catch (error) {

@@ -1,3 +1,10 @@
+const BASE_PATH = "/lapikud.github.io/";
+
+function withBase(path) {
+  const value = String(path || "").replace(/^\/+/, "");
+  return `${BASE_PATH}${value}`;
+}
+
 /**
  * Image path helpers for assets under /public/assets.
  *
@@ -30,7 +37,7 @@ function getOptimisedBasePath(category, filename) {
 function getVariantSrc(category, filename, variant = "full", format = "webp") {
   const ext = normaliseFormat(format);
   const safeVariant = String(variant || "full").trim() || "full";
-  return `${getOptimisedBasePath(category, filename)}/${safeVariant}.${ext}`;
+  return withBase(`${getOptimisedBasePath(category, filename)}/${safeVariant}.${ext}`);
 }
 
 /**
@@ -45,7 +52,7 @@ export function getRootAssetPath(category, filename, defaultExt = "svg") {
   if (!value) return "";
   const hasExt = /\.[^./\\]+$/.test(value);
   const fileWithExt = hasExt ? value : `${value}.${defaultExt}`;
-  return `/assets/${category}/${fileWithExt}`;
+  return withBase(`assets/${category}/${fileWithExt}`);
 }
 
 /**

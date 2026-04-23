@@ -3,6 +3,7 @@
   import { onMount, onDestroy } from "svelte";
   import yaml from "js-yaml";
   import { currentLang, getLangText, createPageTextStore } from "$lib";
+  import { withBase } from "$lib/baseUrl.js";
   import { getOptimisedImagePath, getOptimisedImageFallback } from "$lib/imageHelpers.js";
 
   import ExternalLink from "lucide-svelte/icons/external-link";
@@ -11,7 +12,7 @@
   const text = createPageTextStore("OurWork");
 
   onMount(async () => {
-    const response = await fetch("/_data/ourwork.yml");
+    const response = await fetch(withBase('_data/ourwork.yml'));
     const yamlText = await response.text();
     const parsed = yaml.load(yamlText) || [];
     projects = parsed.filter((p) => p?.title);
